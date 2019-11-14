@@ -10,6 +10,10 @@ class BasicServer(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'application/json')
         self.end_headers()
 
+    def do_GET(self):
+        self._set_response()
+        self.wfile.write(json.dumps('Hola').encode('utf-8'))
+
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
         post_data = self.rfile.read(content_length)  # <--- Gets the data itself
