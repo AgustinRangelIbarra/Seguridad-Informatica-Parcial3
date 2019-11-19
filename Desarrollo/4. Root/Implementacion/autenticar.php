@@ -9,22 +9,28 @@
 	$request = json_decode(file_get_contents("php://input"), true);
 
 	$requestEmail = $request['email'];
-
+	$requestPassword = $request['password'];
+	$respuestaFinal;
 
 	$query = "SELECT email, password FROM users";
     
     $data = @mysqli_query($dbc, $query);
     
-    $response = "false";
+	$datos['response'] = array(
+		'email'        	=> $requestEmail,
+		'password'    	=> $requestPassword,
+		'access'		=> 'false');
+	$datos['otraClave'] = 'OtroValor';
 
-    while ($fila = mysqli_fetch_array($data, MYSQLI_ASSOC)) {
-    	if($requestEmail == $fila['email']){
-    		$response = "true"; 
-    		break;
-    	}
-    }
-    
+	$response = @mysqli_query($dbc, $query);
+	while ($fila = mysqli_fetch_array($response, MYSQLI_ASSOC)) {
+		if($requestEmail == $fila['email'] && $requestPassword == $fila['password']){
+			$datos['response']['access'] = 'true';			
+			break;
+		}
+	}
 
-    //$respuestaFinal = (object) $response
-;/* Devolver JSON */
-echo json_encode($response);
+	$respuestaFinal = (object) $datos;
+	
+/* Devolver JSON */
+echo json_encode($respuestaFinal);
