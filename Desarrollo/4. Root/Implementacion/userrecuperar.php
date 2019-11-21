@@ -20,19 +20,8 @@ $datos = array();
 $data = @mysqli_query($dbc, $query);
 
 while ($fila = mysqli_fetch_array($data, MYSQLI_ASSOC)) {
-    $datos[$fila['id']] = array(
-        'email'        => $fila['email'],
-        'firstname'    => $fila['firstname'],
-        'lastname'    => $fila['lastname'],
-        'password'    => $fila['password'],
-        'days_of_password_validity'    => $fila['days_of_password_validity'],
-        'date_of_last_password_update'    => $fila['date_of_last_password_update'],
-        'is_temporal_password'    => $fila['is_temporal_password'],
-        'activation_key'    => $fila['activation_key'],
-        'status'    => $fila['status'],
-        'p1'    => $fila['p1'],
-        'P2'    => $fila['P2'],
-        'P3'    => $fila['P3']
+    $datos['0'] = array(
+        'password'    => $fila['password']
     );
 }
 $respuestaFinal = (object) $datos;
